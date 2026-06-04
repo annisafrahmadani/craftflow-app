@@ -1,0 +1,78 @@
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-title {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.settings-subtitle {
+  margin-top: 8px;
+  color: var(--gray-text);
+}
+
+.settings-card {
+  background: white;
+
+  padding: 24px;
+
+  border-radius: 24px;
+
+  box-shadow: var(--shadow-soft);
+}
+
+.settings-card h2 {
+  margin-bottom: 20px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-form input {
+  padding: 14px 16px;
+
+  border: 1px solid var(--border-gray);
+
+  border-radius: 16px;
+}
+
+.settings-form button {
+  width: fit-content;
+
+  border: none;
+
+  background: var(--craft-blue);
+
+  color: white;
+
+  padding: 14px 20px;
+
+  border-radius: 16px;
+
+  cursor: pointer;
+}
+
+.theme-options {
+  display: flex;
+  gap: 24px;
+}
+
+.logout-button {
+  border: none;
+
+  background: #dc2626;
+
+  color: white;
+
+  padding: 14px 20px;
+
+  border-radius: 16px;
+
+  cursor: pointer;
+}

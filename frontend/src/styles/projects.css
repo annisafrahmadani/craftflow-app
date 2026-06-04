@@ -1,0 +1,158 @@
+.projects-page {
+  display: flex;
+  flex-direction: column;
+
+  gap: 32px;
+}
+
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.projects-title {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.projects-subtitle {
+  margin-top: 8px;
+
+  color: var(--gray-text);
+}
+
+.add-project-button {
+  border: none;
+
+  background-color: var(--energy-orange);
+
+  color: white;
+
+  padding: 16px 24px;
+
+  border-radius: 20px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.add-project-button:hover {
+  transform: translateY(-2px);
+}
+
+.projects-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 24px;
+}
+
+.project-card {
+  background-color: white;
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  box-shadow: var(--shadow-soft);
+}
+
+.project-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.project-name {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.project-category {
+  margin-top: 8px;
+
+  color: var(--gray-text);
+}
+
+.project-status {
+  padding: 10px 14px;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-status.active {
+  background-color: rgba(0, 102, 204, 0.12);
+
+  color: var(--craft-blue);
+}
+
+.project-status.completed {
+  background-color: rgba(16, 177, 64, 0.15);
+
+  color: var(--support-green);
+}
+
+.project-description {
+  margin-top: 24px;
+
+  line-height: 1.6;
+
+  color: var(--gray-text);
+}
+
+.project-progress-section {
+  margin-top: 28px;
+}
+
+.project-progress-top {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-progress-bar {
+  width: 100%;
+  height: 14px;
+
+  border-radius: 999px;
+
+  background-color: var(--soft-bg);
+
+  overflow: hidden;
+}
+
+.project-progress-fill {
+  height: 100%;
+
+  background-color: var(--craft-blue);
+
+  border-radius: 999px;
+}
+
+.completed-fill {
+  background-color: var(--support-green);
+}
+
+.project-footer {
+  margin-top: 28px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 14px;
+
+  color: var(--gray-text);
+}

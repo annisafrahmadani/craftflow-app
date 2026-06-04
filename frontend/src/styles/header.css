@@ -1,0 +1,78 @@
+.dashboard-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: white;
+
+  padding: 20px 28px;
+  border-radius: 32px;
+
+  box-shadow: var(--shadow-soft);
+}
+
+.header-title {
+  font-size: 42px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.header-subtitle {
+  margin-top: 12px;
+  color: var(--gray-text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background-color: var(--soft-bg);
+
+  border: 1px solid var(--border-gray);
+
+  padding: 14px 18px;
+
+  border-radius: 16px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.notification-button {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 16px;
+
+  background-color: var(--craft-blue);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background-color: var(--energy-orange);
+}
