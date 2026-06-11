@@ -156,3 +156,87 @@
 
   color: var(--gray-text);
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.project-form {
+  width: 500px;
+  max-width: 90%;
+
+  background: white;
+
+  padding: 24px;
+
+  border-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  box-shadow: var(--shadow-soft);
+}
+
+.project-form h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.project-form input,
+.project-form textarea {
+  width: 100%;
+
+  padding: 12px 16px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  font-size: 14px;
+}
+
+.project-form textarea {
+  min-height: 120px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+.modal-actions button {
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.modal-actions button:first-child {
+  background: #f3f4f6;
+}
+
+.modal-actions button:last-child {
+  background: var(--energy-orange);
+
+  color: white;
+}
+

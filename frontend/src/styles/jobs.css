@@ -1,7 +1,11 @@
+/* ==========================================
+   PAGE LAYOUT & HEADER
+   ========================================== */
 .jobs-page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
+  padding: 4px;
 }
 
 .jobs-header {
@@ -11,150 +15,390 @@
 }
 
 .jobs-title {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--dark-text);
 }
 
 .jobs-subtitle {
-  margin-top: 8px;
+  margin-top: 6px;
+  font-size: 14px;
   color: var(--gray-text);
 }
 
+
+
+/* Tombol Add Jobs disesuaikan dengan tombol Orange di Dashboard */
 .add-job-button {
   border: none;
-  background-color: var(--support-green);
+  background-color: var(--energy-orange);
   color: white;
-
-  padding: 16px 24px;
-
-  border-radius: 20px;
-
+  padding: 12px 24px;
+  border-radius: var(--radius-main);
   cursor: pointer;
   font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 98, 0, 0.2);
 }
 
+.add-job-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 98, 0, 0.3);
+  opacity: 0.95;
+}
+
+.add-job-button:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   SUMMARY CARDS (Grid 4 Kolom)
+   ========================================== */
 .jobs-summary {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
 .summary-card {
-  background: white;
-
-  border-radius: 24px;
-
+  background: var(--card-white);
+  border-radius: var(--radius-main);
   padding: 24px;
-
   box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
 .summary-card h3 {
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--gray-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .summary-card p {
-  margin-top: 10px;
-
-  font-size: 38px;
+  margin-top: 12px;
+  font-size: 36px;
   font-weight: 700;
+  color: var(--dark-text);
 }
 
+/* ==========================================
+   CHARTS SECTION
+   ========================================== */
 .jobs-charts {
   display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 24px;
 }
 
 .chart-card {
-  background: white;
-
-  border-radius: 24px;
-
+  background: var(--card-white);
+  border-radius: var(--radius-main);
   padding: 24px;
-
   box-shadow: var(--shadow-soft);
 }
 
 .chart-card h3 {
+  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
 .chart-placeholder {
   height: 280px;
-
   border-radius: 20px;
-
-  background: var(--soft-bg);
-
+  background: #F9F9F9;
+  border: 2px dashed var(--border-gray);
   display: flex;
   justify-content: center;
   align-items: center;
-
   color: var(--gray-text);
+  font-size: 14px;
 }
 
+/* Styling Utama Wadah Grafik di Dalam Chart Card */
+.pie-container-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  padding-top: 12px;
+}
+
+/* Memaksa Elemen Menggambar Lingkaran Solid */
+.pie-render-solid {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  flex-shrink: 0; /* Mencegah lingkaran gepeng atau menyusut */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Mengatur Barisan Teks Keterangan di Bawah */
+.pie-render-labels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.pie-label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+/* Kotak Warna Penanda Kategori */
+.pie-label-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   FILTERS & INPUTS
+   ========================================== */
 .jobs-filters {
   display: flex;
   gap: 16px;
+  align-items: center;
+}
+
+.jobs-search,
+.jobs-select {
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--border-gray);
+  background-color: var(--card-white);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
 }
 
 .jobs-search {
   flex: 1;
-
-  padding: 14px 18px;
-
-  border-radius: 16px;
-
-  border: 1px solid var(--border-gray);
 }
 
 .jobs-select {
   min-width: 180px;
-
-  padding: 14px 18px;
-
-  border-radius: 16px;
-
-  border: 1px solid var(--border-gray);
+  cursor: pointer;
 }
 
+.jobs-search:focus,
+.jobs-select:focus {
+  border-color: var(--craft-blue);
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+/* ==========================================
+   TABLE DATA
+   ========================================== */
 .jobs-table-container {
-  background: white;
-
-  border-radius: 24px;
-
+  background: var(--card-white);
+  border-radius: var(--radius-main);
   overflow-x: auto;
-
   box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 0, 0, 0.02);
 }
 
 .jobs-table {
   width: 100%;
-
   border-collapse: collapse;
+  font-size: 14px;
 }
 
 .jobs-table th {
-  background: var(--soft-bg);
-
-  padding: 16px;
-
+  background: #FAFAFA;
+  padding: 18px 20px;
   text-align: left;
-
   font-weight: 600;
+  color: var(--gray-text);
+  border-bottom: 1px solid var(--border-gray);
 }
 
 .jobs-table td {
-  padding: 16px;
-
-  border-top: 1px solid #eeeeee;
+  padding: 18px 20px;
+  border-top: 1px solid #F1F1F1;
+  color: var(--dark-text);
 }
 
 .jobs-table tr:hover {
-  background: #fafafa;
+  background: rgba(197, 138, 240, 0.05); /* Soft purple hover effect */
 }
+
+/* ==========================================
+   MODAL COMPONENT (CREATE & UPDATE FORM)
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.4);
+  backdrop-filter: blur(8px); /* Membuat latar belakang blur premium */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.job-form, .modal {
+  width: 550px;
+  max-width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--card-white);
+  padding: 32px;
+  border-radius: var(--radius-main);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.job-form h2 {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Style Input di dalam Form */
+.job-form input,
+.job-form textarea,
+.job-form select,
+.modal input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border-gray);
+  border-radius: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #FAFAFA;
+  color: var(--dark-text);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.job-form input:focus,
+.job-form textarea:focus,
+.job-form select:focus,
+.modal input:focus {
+  background-color: var(--card-white);
+  border-color: var(--craft-blue);
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.job-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.job-form input:focus {
+  border-color: var(--craft-blue);
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.15);
+}
+
+.job-form select:focus {
+  border-color: var(--energy-orange);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.15);
+}
+
+.job-form textarea:focus {
+  border-color: var(--flow-purple);
+  box-shadow: 0 0 0 4px rgba(197, 138, 240, 0.2);
+}
+
+/* Container Action Button */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+  border-top: 2px dashed var(--border-gray);
+  padding-top: 18px;
+}
+
+.modal-actions button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-size: 700;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Button Cancel */
+.modal-actions button:first-child {
+  background: rgba(197, 138, 240, 0.15);
+  color: #8b3fc4;
+}
+
+.modal-actions button:first-child:hover {
+  background: var(--flow-purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(197, 138, 240, 0.3);
+}
+
+/* Button Save / Submit */
+.modal-actions button:last-child {
+  background: var(--support-green);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+.modal-actions button:last-child:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
+  filter: brightness(1.1);
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Merapikan visual teks internal bawaan library Recharts */
+.recharts-pie-label-text {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  fill: #FFFFFF !important;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+}
+

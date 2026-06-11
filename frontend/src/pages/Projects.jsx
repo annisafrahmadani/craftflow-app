@@ -1,12 +1,58 @@
+import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
+import api from "../services/api";
+import "../styles/projects.css";
 
-import "../styles/projects.css"
+function Projects() {
+    const [projects, setProjects] = useState([]);
 
-function Projects(){
-    return(
+    const [showForm, setShowForm] = useState(false);
+
+    const [newProject, setNewProject] = useState({
+        name: "",
+        category: "",
+        description: "",
+        progress: 0,
+        deadline: "",
+    });
+
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    const fetchProjects = async () => {
+        try {
+            const response = await api.get("projects/");
+            setProjects(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const createProject = async () => {
+        try {
+            await api.post("projects/", newProject);
+
+            setNewProject({
+                name: "",
+                category: "",
+                description: "",
+                progress: 0,
+                deadline: "",
+            });
+
+            fetchProjects();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return (
         <MainLayout>
             <div className="projects-page">
+
                 <div className="projects-header">
+
                     <div>
                         <h1 className="projects-title">
                             Projects
@@ -17,93 +63,179 @@ function Projects(){
                         </p>
                     </div>
 
-                    <button className="add-project-button">
+                    <button 
+                        className="add-project-button"
+                        onClick={() => setShowForm(true)}
+                    >
                         + Add Project
                     </button>
+
                 </div>
 
-                <div className="projects-grid">
-                    <div className="project-card">
-                        <div className="project-top">
-                            <div>
-                                <h3 className="project-name">
-                                    CraftFlow Dashboard
-                                </h3>
+                {showForm && (
+                    <div className="modal-overlay">
+                        <div className="project-form">
 
-                                <p className="project-category">
-                                    Web Development
-                                </p>
-                            </div>
+                            <h2>Add New Project</h2>
 
-                            <span className="project-status active">
-                                Active
-                            </span>
-                        </div>
-                        <p className="project-description">
-                            Build productivity with React and Django backend.
-                        </p>
+                            <input
+                                type="text"
+                                placeholder="Project Name"
+                                value={newProject.name}
+                                onChange={(e) =>
+                                    setNewProject({
+                                        ...newProject,
+                                        name: e.target.value,
+                                    })
+                                }
+                            />
+
+                            <input
+                                type="text"
+                                placeholder="Category"
+                                value={newProject.category}
+                                onChange={(e) =>
+                                    setNewProject({
+                                        ...newProject,
+                                        category: e.target.value,
+                                    })
+                                }
+                            />
+
+                            <textarea
+                                placeholder="Description"
+                                value={newProject.description}
+                                onChange={(e) =>
+                                    setNewProject({
+                                        ...newProject,
+                                        description: e.target.value,
+                                    })
+                                }
+                            />
+
+                            <input
+                                type="number"
+                                placeholder="Progress"
+                                value={newProject.progress}
+                                onChange={(e) =>
+                                    setNewProject({
+                                        ...newProject,
+                                        progress: e.target.value,
+                                    })
+                                }
+                            />
+
+                            <input
+                                type="date"
+                                value={newProject.deadline}
+                                onChange={(e) =>
+                                    setNewProject({
+                                        ...newProject,
+                                        deadline: e.target.value,
+                                    })
+                                }
+                            />
                         
-                        <div className="project-progress-section">
-                            <div className="project-progress-top">
-                                <span>Progress</span>
-                                <span>75%</span>
-                            </div>
+                            <div className="modal-actions">
 
-                            <div className="project-progress-bar">
-                                <div className="project-progress-fill"
-                                style={{width: 75}}
-                                ></div>
-                            </div>
-                        </div>
-                        <div className="project-footer">
-                            <span>
-                                12 Tasks
-                            </span>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowForm(false)}
+                                >
+                                    Cancel
+                                </button>
 
-                            <span>
-                                Deadline: May 28
-                            </span>
+                                <button
+                                    onClick={() => {
+                                        createProject();
+                                        setShowForm(false);
+                                    }}
+                                >
+                                    Save Project
+                                </button>
+
+                            </div>
                         </div>
                     </div>
-                    <div className="project-card">
+                )}
+
+             
+                {projects.map((project) => (
+
+                    <div
+                        className="project-card"
+                        key={project.id}
+                    >
+
                         <div className="project-top">
+
                             <div>
+
                                 <h3 className="project-name">
-                                    Ponyo Sims 4 Mod
+                                    {project.name}
                                 </h3>
 
                                 <p className="project-category">
-                                    Game Modding
+                                    {project.category}
                                 </p>
+
                             </div>
-                            <span className="project-status completed">
-                                Completed
-                            </span>
-                        </div>
-                        <p className="project-description">
-                            Create custom Ponyo inpires assets and gameplay experience.
-                        </p>
-                        <div className="projects-progress-section">
-                            <div className="project-progress-top">
-                                <span>Progress</span>
-                                <span>100%</span>
-                            </div>
-                            <div className="project-progress-bar">
-                                <div className="project-progress-fill completed-fill"
-                                style={{width: "100%"}}></div>
-                            </div>
-                        </div>
-                        <div className="project-footer">
-                            <span>
-                                20 Tasks
+
+                            <span className="project-status">
+                                {project.is_completed ? "Completed" : "Active"}
                             </span>
 
-                            <span>Deadline: May 18</span>
                         </div>
+
+                        <p className="project-description">
+                            {project.description}
+                        </p>
+
+                        <div className="project-progress-section">
+
+                            <div className="project-progress-top">
+
+                                <span>Progress</span>
+
+                                <span>
+                                    {project.progress}%
+                                </span>
+
+                            </div>
+
+                            <div className="project-progress-bar">
+
+                                <div
+                                    className="project-progress-fill"
+                                    style={{
+                                        width: `${project.progress}%`,
+                                    }}
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                        <div className="project-footer">
+
+                            <span>
+                                Project
+                            </span>
+
+                            <span>
+                                Deadline{" "}
+                                {project.deadline || "No Deadline"}
+                            </span>
+
+                        </div>
+
                     </div>
-                </div>
+
+                ))}
+
             </div>
         </MainLayout>
     );
 }
+
 export default Projects;
