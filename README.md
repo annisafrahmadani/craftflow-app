@@ -1,25 +1,57 @@
-Hi, I'm Annisa 👋
+# 🚀 CraftFlow
 
-Fresh Graduate Informatics Engineering.
+CraftFlow adalah aplikasi web untuk membantu pengguna mengelola project, task, dan job application dalam satu dashboard.
 
-Interested in:
+## ✨ Features
 
-💻 Software Engineering
-📊 Data Analytics
-🎨 3D Modeling
+- Dashboard
+- Project Management
+- Task Management
+- Job Tracker
+- Authentication
+- Protected Routes
+- Responsive UI
 
-Tech Stack
+## 🛠️ Tech Stack
 
-PHP
-Laravel
-Python
-SQL
-JavaScript
-Unity
-Blender
+### Frontend
+- React
+- React Router
+- CSS
+- Chart.js
 
-Currently Learning
+### Backend
+- Django
+- Django REST Framework
 
-Frontend Development
-Data Analysis
-3D Modeling
+## 📂 Project Structure
+
+```
+craftflow-app/
+│
+├── backend/
+├── frontend/
+└── README.md
+```
+
+## 🚀 Installation
+
+### Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 📸 Screenshots
+
+Coming Soon...
