@@ -1,8 +1,17 @@
 import MainLayout from "../layouts/MainLayout";
 
 import "../styles/settings.css";
+import { useNavigate } from "react-router-dom";
 
 function Settings(){
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("user"); 
+        navigate("/login"); 
+         window.location.reload();
+    };
+
     return(
         <MainLayout>
             <div className="settings-page">
@@ -79,7 +88,12 @@ function Settings(){
                 <div>
                     <h2>Account</h2>
 
-                    <button className="logout-button">Logout</button>
+                    <button
+                        className="logout-button"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
         </MainLayout>

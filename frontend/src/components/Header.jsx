@@ -3,13 +3,14 @@ import "../styles/header.css";
 import { Bell, Search } from "lucide-react";
 
 function Header() {
+  const username = localStorage.getItem("username");
   return (
     <div className="dashboard-header">
 
       <div>
 
         <h1 className="header-title">
-          Welcome back, Ca ✨
+           Welcome back, {username || "User"} ✨
         </h1>
 
         <p className="header-subtitle">

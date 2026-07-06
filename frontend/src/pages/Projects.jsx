@@ -7,6 +7,8 @@ function Projects() {
     const [projects, setProjects] = useState([]);
 
     const [showForm, setShowForm] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingId, setEditingId] = useState(null);
 
     const [newProject, setNewProject] = useState({
         name: "",
@@ -47,6 +49,58 @@ function Projects() {
         }
     };
 
+    const updateProject = async () => {
+        try {
+            await api.put(`projects/${editingId}/`, newProject);
+
+            fetchProjects();
+
+            setShowForm(false);
+            setIsEditing(false);
+            setEditingId(null);
+
+            setNewProject({
+                name: "",
+                category: "",
+                description: "",
+                progress: 0,
+                deadline: "",
+            });
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const deleteProject = async (id) => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this project?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await api.delete(`projects/${id}/`);
+            fetchProjects();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const editProject = (project) => {
+        setNewProject({
+            name: project.name,
+            category: project.category,
+            description: project.description,
+            progress: project.progress,
+            deadline: project.deadline,
+        });
+
+        setEditingId(project.id);
+        setIsEditing(true);
+        setShowForm(true);
+    };
+
     return (
         <MainLayout>
             <div className="projects-page">
@@ -76,7 +130,7 @@ function Projects() {
                     <div className="modal-overlay">
                         <div className="project-form">
 
-                            <h2>Add New Project</h2>
+                            <h2>{isEditing ? "Edit Project" : "Add New Project"}</h2>
 
                             <input
                                 type="text"
@@ -147,11 +201,14 @@ function Projects() {
 
                                 <button
                                     onClick={() => {
-                                        createProject();
-                                        setShowForm(false);
+                                        if (isEditing) {
+                                            updateProject();
+                                        } else {
+                                            createProject();
+                                        }
                                     }}
                                 >
-                                    Save Project
+                                    {isEditing ? "Update Project" : "Save Project"}
                                 </button>
 
                             </div>
@@ -166,6 +223,7 @@ function Projects() {
                         className="project-card"
                         key={project.id}
                     >
+                        
 
                         <div className="project-top">
 
@@ -229,6 +287,21 @@ function Projects() {
 
                         </div>
 
+                        <div className="project-actions">
+                            <button
+                                className="edit-btn"
+                                onClick={() => editProject(project)}
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                className="delete-btn"
+                                onClick={() => deleteProject(project.id)}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
 
                 ))}

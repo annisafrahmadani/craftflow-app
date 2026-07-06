@@ -7,6 +7,7 @@ function Tasks(){
     const [tasks, setTasks] = useState([]);
 
     const [showForm, setShowForm] = useState(false);
+    const [editingTask, setEditingTask] = useState(null);
 
     const [newTask, setNewTask] = useState({
         title: "",
@@ -28,9 +29,24 @@ function Tasks(){
         }
     };
 
-    const createTask = async () => {
+    const saveTask = async () => {
         try {
-            await api.post("tasks/", newTask);
+
+            if (editingTask) {
+
+                await api.put(
+                    `tasks/${editingTask.id}/`,
+                    newTask
+                );
+
+            } else {
+
+                await api.post(
+                    "tasks/",
+                    newTask
+                );
+
+            }
 
             setNewTask({
                 title: "",
@@ -39,11 +55,50 @@ function Tasks(){
                 deadline: "",
             });
 
+            setEditingTask(null);
+            setShowForm(false);
+
             fetchTasks();
+
         } catch (error) {
             console.error(error);
         }
-    }
+    };
+
+    const editTask = (task) => {
+        setEditingTask(task);
+
+         setNewTask({
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            deadline: task.deadline,
+        });
+
+        setShowForm(true);
+    };
+
+    const deleteTask = async (id) => {
+
+    const confirmDelete = window.confirm(
+            "Are you sure you want to delete this task?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            await api.delete(`tasks/${id}/`);
+
+            fetchTasks();
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+
+    
     
 
     console.log(tasks);
@@ -118,13 +173,8 @@ function Tasks(){
                                     </button>
 
                                     <button
-                                        type="button"
-                                        onClick={async () => {
-                                            await createTask();
-                                            setShowForm(false);
-                                        }}
-                                    >
-                                        Save Task
+                                        onClick={saveTask}>
+                                           {editingTask ? "Update Task" : "Save Task"}
                                     </button>
 
                                 </div>
@@ -145,9 +195,20 @@ function Tasks(){
                     </div>
                     <button 
                         className="add-task-button"
-                        onClick={() => setShowForm(true)}
+                        onClick={() => {
+                            setEditingTask(null);
+
+                            setNewTask({
+                                title: "",
+                                description: "",
+                                status: "todo",
+                                deadline: "",
+                            });
+
+                            setShowForm(true);
+                        }}
                     >
-                        + add Task
+                        + Add Task
                     </button>
                 </div>
 
@@ -187,7 +248,28 @@ function Tasks(){
 
                             </div>
 
+                            <div className="task-actions">
+                                <button 
+                                     className="task-edit-btn"
+                                    onClick={() => editTask(task)}
+                                >
+                                    Edit
+                                </button>
+                            
+
+                                <button
+                                    className="task-delete-btn"
+                                    onClick={() => deleteTask(task.id)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+
                         </div>
+
+                    
+
+                        
 
                     ))}     
                 </div>

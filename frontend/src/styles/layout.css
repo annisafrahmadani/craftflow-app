@@ -1,15 +1,16 @@
 .main-layout {
   display: flex;
-  min-height: 100vh;
+
+   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;  
+  
+  
 }
 
 .main-content {
   flex: 1;
-
+  min-width: 0;        /* 🔥 penting banget */
   padding: 32px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 32px;
+  overflow-x: hidden; 
 }

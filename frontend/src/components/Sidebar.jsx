@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 
 function Sidebar() {
+
+  const username = localStorage.getItem("username");
+
   return (
     <div className="sidebar">
 
@@ -94,12 +97,12 @@ function Sidebar() {
         <div className="sidebar-profile">
 
           <div className="sidebar-profile-picture">
-            C
+             {username?.charAt(0).toUpperCase()}
           </div>
 
           <div>
             <h3 className="sidebar-profile-name">
-              Ca
+                {username || "User"}
             </h3>
 
             <p className="sidebar-profile-role">

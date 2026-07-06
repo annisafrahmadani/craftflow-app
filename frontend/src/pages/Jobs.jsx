@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import api from "../services/api";
 import "../styles/jobs.css";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+import { Pie } from "react-chartjs-2";
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 
 function Jobs(){
@@ -10,6 +24,8 @@ function Jobs(){
     const [showForm, setShowForm] = useState(false);
     const [editingJob, setEditingJob] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const normalizeStatus = (status) =>
+        (status || "No Status").toLowerCase().trim();
 
     const [newJob, setNewJob] = useState({
         company_name: "",
@@ -169,9 +185,15 @@ function Jobs(){
     };
 
     const totalApply = jobs.length;
-    const activeJobsCount = jobs.filter(job => job.status !== "Rejected" && job.status !== "Accepted").length;
-    const rejectedJobsCount = jobs.filter(job => job.status === "Rejected").length;
-    const acceptedJobsCount = jobs.filter(job => job.status === "Accepted").length;
+    const activeJobsCount = jobs.filter(
+        job => job.status !== ["rejected","accepted"].includes(normalizeStatus(job.status))
+    ).length;
+    const rejectedJobsCount = jobs.filter(
+        job => job.status === "rejected"
+    ).length;
+    const acceptedJobsCount = jobs.filter(
+        job => job.status === "accepted"
+    ).length;
 
     const uniqueStatuses = [...new Set(jobs.map(job => job.status || "No Status"))];
     const colorPalette = ["#0066CC", "#10B140", "#FF6200", "#C58AF0", "#D4FF00", "#666666", "#111111"];
@@ -224,6 +246,22 @@ function Jobs(){
     });
     typeGradString = typeGradString.slice(0, -2);
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("All");
+    const filteredJobs = jobs.filter((job) => {
+        const matchSearch =
+            job.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.job_title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.source?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.position?.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchStatus =
+            statusFilter === "All" || job.status === statusFilter;
+
+        return matchSearch && matchStatus;
+    });
+
     console.log(jobs);
 
     return(
@@ -275,121 +313,31 @@ function Jobs(){
                 </div>
             </div>
 
-            <div className="jobs-charts">
-                <div className="chart-card">
-                    <h3>Aplication Status</h3>
-
-                    <div className="chart-container">
-                        {totalStatusValue === 0 ?(
-                            <div className="chart-placeholder">Belum ada data tipe kerja.</div>
-                        ) :(
-                            <>
-                                <svg width="160" height="160" viewBox="0 0 32 32" style={{ transform: "rotate(-90deg)", borderRadius: "50%" }}>
-                                    {(() => {
-                                        let acc = 0;
-                                        return typePieData.map((slice, i) => {
-                                            if (slice.value === 0) return null;
-                                            const pc = (slice.value / totalTypeValue) * 100;
-                                            const dash = `${pc} ${100 - pc}`;
-                                            const offset = 100 - acc;
-                                            acc += pc;
-                                            return <circle key={i} cx="16" cy="16" r="16" fill="transparent" stroke={slice.color} strokeWidth="32" strokeDasharray={dash} strokeDashoffset={offset} />;
-                                        });
-                                    })()}
-                                </svg>
-
-                                {statusPieData.map((item,i) => item.value > 0 &&(
-                                    <span style={{ backgroundColor: item.color }} className="legend-badge">
-                                        {item.name}
-                                        {item.value} (
-                                            {((item.value / totalStatusValue) * 100).toFixed(0)}%)
-                    
-                                    </span>
-                                ))}
-
-                                
-                            </>
-                        )}
-                    </div>
-                </div>
-
-                <div className="chart-card">
-                    <h3>Employment Type</h3>
-                    
-                    {totalTypeValue === 0 ? (
-                        <div className="chart-placeholder">Belum ada data tipe kerja.</div>
-                    ) : (
-                        <>
-                            <svg 
-                                width="140" 
-                                height="140" 
-                                viewBox="0 0 32 32" 
-                                style={{ transform: "rotate(-90deg)", borderRadius: "50%" }}
-                            >
-                                <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#F3F3F3" strokeWidth="6" />
-                                {(() => {
-                                    let acc = 0;
-                                    return typePieData.map((slice, i) => {
-                                        if (slice.value === 0) return null;
-                                        const pc = (slice.value / totalTypeValue) * 100;
-                                        const dash = `${pc} ${100 - pc}`;
-                                        const offset = 100 - acc;
-                                        acc += pc;
-                                        return (
-                                            <circle 
-                                                key={i} 
-                                                cx="16" 
-                                                cy="16" 
-                                                r="16" 
-                                                fill="transparent" 
-                                                stroke={slice.color} 
-                                                strokeWidth="32" 
-                                                strokeDasharray={dash} 
-                                                strokeDashoffset={offset} 
-                                            />
-                                        );
-                                    });
-                                })()}
-                            </svg>
-
-                            <div className="chart-legends" style={{ maxHeight: "200px", overflowY: "auto" }}>
-                                {typePieData.map((item, i) => item.value > 0 && (
-                                    <div key={i} className="legend-item">
-                                        <span style={{ backgroundColor: item.color }} className="legend-badge"></span>
-                                        <span className="legend-text">{item.name}</span>
-                                        <strong>{item.value} ({((item.value / totalTypeValue) * 100).toFixed(0)}%)</strong>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
-            </div>
+            
             <div>
                 <input 
                     type="text" 
                     placeholder="Search company or position"
                     className="jobs-search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
 
-                <select className="jobs-select">
-                    <option>Status</option>
-                    <option>Appplied</option>
-                    <option>Assesment</option>
-                    <option>Interview</option>
-                    <option>Accepted</option>
-                    <option>Rejected</option>
+                <select 
+                     className="jobs-select"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                >
+    
+                    <option value="All">Status</option>
+                    <option value="applied">Applied</option>
+                    <option value="assessment">Assessment</option>
+                    <option value="interview">Interview</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="rejected">Rejected</option>
                 </select>
 
-                <select className="jobs-selected">
-                    <option>Type</option>
-                    <option>Contract</option>
-                    <option>Permanent</option>
-                    <option>Internship</option>
-                    <option>Management Trainee</option>
-                    <option>Remote</option>
-                    <option>hybrid</option>
-                </select>
+                
             </div>
             <div className="jobs-table-container">
                 <table className="jobs-table">
@@ -410,7 +358,7 @@ function Jobs(){
                     </thead>
 
                     <tbody>
-                        {jobs.map((job) => (
+                        {filteredJobs.map((job) => (
                             <tr key={job.id}>
 
                                 <td>{job.company_name}</td>
@@ -452,13 +400,19 @@ function Jobs(){
                                     
                                 </td>
 
-                                <td>
-                                    <button onClick={() => handleEdit(job)}>
-                                        Edit
+                                <td className="jobs-actions">
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => handleEdit(job)}
+                                    >
+                                        ✏️ Edit
                                     </button>
 
-                                    <button onClick={() => deleteJob(job.id)}>
-                                        Delete
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => handleDelete(job.id)}
+                                    >
+                                        🗑 Delete
                                     </button>
                                 </td>
 
